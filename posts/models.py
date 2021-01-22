@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.db.models.deletion import SET_NULL
+
 
 User = get_user_model()
 

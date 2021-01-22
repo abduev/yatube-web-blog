@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.db.models.deletion import SET_NULL
 from django.test import TestCase
 
 from posts.models import Group, Post
