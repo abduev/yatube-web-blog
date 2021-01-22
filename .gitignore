@@ -19,4 +19,8 @@ static/
 posts/static/
 media/
 
+.vscode
+
 db.sqlite3
+
+
