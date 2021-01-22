@@ -8,6 +8,7 @@ class PostForm(ModelForm):
         model = Post
         fields = ['group', 'text', 'image']
 
+
 class CommentForm(ModelForm):
     class Meta:
         model = Comment
