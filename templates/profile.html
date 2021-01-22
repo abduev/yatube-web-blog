@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}Профиль пользователя{% endblock %}
+{% block content %}
+{% load user_filters %}
+
+<main role="main" class="container">
+    <div class="row">
+            <div class="col-md-3 mb-3 mt-1">
+                <div class="card">
+                        {% if author != user %}
+                        <li class="list-group-item">
+                        
+                        {% if following %}
+                        <a class="btn btn-lg btn-light" 
+                                href="{% url 'profile_unfollow' author.username %}" role="button"> 
+                                Отписаться 
+                        </a> 
+                        {% else %}
+                        <a class="btn btn-lg btn-primary" 
+                                href="{% url 'profile_follow' author.username %}" role="button">
+                        Подписаться 
+                        </a>
+                        {% endif %}
+                        {% endif %}
+                    </li> 
+                        <div class="card-body">
+
+
+                                <div class="h2">
+                                        {{ author.get_full_name }}
+
+                                </div>
+                                <div class="h3 text-muted">
+                                        
+                                        {{ author.username }}
+                                       
+
+                                </div>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                        <div class="h6 text-muted">
+                                        Подписчиков: XXX <br />
+                                        Подписан: XXX
+                                        </div>
+                                </li>
+                                <li class="list-group-item">
+                                        <div class="h6 text-muted">
+                                            Записей: {{ paginator.count }}
+                                        </div>
+                                </li>
+                        </ul>
+                </div>
+        </div>
+
+        <div class="col-md-9">
+                {% for post in page %}
+                {% include "post_item.html" with post=post %}
+                 {% endfor %}
+     </div>
+    </div>
+  
+</main>
+
+
+  <!-- Конец блока с отдельным постом --> 
+
+                <!-- Остальные посты -->  
+
+{% include "paginator.html" %}
+{% endblock %} 

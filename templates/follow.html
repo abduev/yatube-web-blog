@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+
+{% block title %}Последние обновления. Подписки.{% endblock %}
+{% block content %}
+<div class="container">
+    {% include "menu.html" with follow=True %}
+    <h1>Последние обновления на сайте</h1>
+    <br>
+   
+    {% for post in page %}
+    
+    {% include "post_item.html" with post=post %}
+    
+    {% endfor %}
+    
+    {% include "paginator.html" %}
+</div>
+{% endblock %} 
