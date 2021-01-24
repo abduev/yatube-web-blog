@@ -90,5 +90,7 @@ class PostCreateFormTest(TestCase):
             }
         ))
         self.assertEqual(Post.objects.count(), post_count)
-        post_is_edited = Post.objects.filter(group=1, text='Текст is edited')
+        post_is_edited = Post.objects.filter(
+            id=PostCreateFormTest.post.id, group=1, text='Текст is edited'
+        )
         self.assertTrue(post_is_edited.exists())

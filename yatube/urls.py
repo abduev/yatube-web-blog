@@ -1,3 +1,5 @@
+import debug_toolbar
+
 from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls import handler404, handler500
@@ -12,6 +14,7 @@ urlpatterns = [
     path("about/", include("about.urls", namespace="about")),
     path("404/", handler404),
     path("500/", handler500),
+    path('__debug__/', include(debug_toolbar.urls))
 ]
 
 handler404 = "posts.views.page_not_found"

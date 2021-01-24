@@ -77,21 +77,21 @@ class PostViewsTests(TestCase):
                 response = self.authorized_client.get(reverse_name)
                 self.assertTemplateUsed(response, template)
 
-    def test_homepage_show_correct_context(self):
+    def test_page_index_show_correct_context(self):
         """Шаблон index сформирован с правильным контекстом."""
         response = self.authorized_client.get(INDEX_URL)
         expected_post = PostViewsTests.post
         actual_post = response.context.get('page')[0]
         self.assertEqual(actual_post, expected_post)
 
-    def test_group_page_show_correct_context(self):
+    def test_page_group_show_correct_context(self):
         """Шаблон group сформирован с правильным контекстом."""
         response = self.authorized_client.get(GROUP_URL)
         expected_post = PostViewsTests.group
         actual_post = response.context.get('group')
         self.assertEqual(actual_post, expected_post)
 
-    def test_profile_show_correct_context(self):
+    def test_page_profile_show_correct_context(self):
         """Шаблон профайла пользователя сформирован
         с правильным контекстом."""
         response = self.authorized_client.get(PROFILE_URL)
@@ -99,7 +99,7 @@ class PostViewsTests(TestCase):
         actual_post = response.context.get('page')[0]
         self.assertEqual(actual_post, expected_post)
 
-    def test_post_show_correct_context(self):
+    def test_page_post_show_correct_context(self):
         """Шаблон отдельного поста пользователя сформирован
         с правильным контекстом."""
         response = self.authorized_client.get(POST_EDIT_URL)
@@ -107,7 +107,7 @@ class PostViewsTests(TestCase):
         actual_post = response.context.get('post')
         self.assertEqual(actual_post, expected_post)
 
-    def test_newpost_page_show_correct_context(self):
+    def test_page_newpost_show_correct_context(self):
         """Шаблон post_new сформирован с правильным контекстом."""
         response = self.authorized_client.get(POST_NEW_URL)
         form_fields = {
@@ -120,7 +120,7 @@ class PostViewsTests(TestCase):
                 form_field = response.context.get('form').fields.get(value)
                 self.assertIsInstance(form_field, expected)
 
-    def test_postedit_page_show_correct_context(self):
+    def test_page_postedit_show_correct_context(self):
         """Шаблон post_edit сформирован с правильным контекстом."""
         response = self.authorized_client.get(POST_EDIT_URL)
         form_fields = {
@@ -133,12 +133,12 @@ class PostViewsTests(TestCase):
                 form_field = response.context.get('form').fields.get(value)
                 self.assertIsInstance(form_field, expected)
 
-    def test_post_appear_in_homepage(self):
+    def test_post_appear_in_page_index(self):
         """Пост появился на главной странице"""
         response = self.authorized_client.get(INDEX_URL)
         self.assertContains(response, PostViewsTests.post)
 
-    def test_post_appear_in_group(self):
+    def test_post_appear_in_page_group(self):
         """Пост появился на странице выбранной группы"""
         response = self.authorized_client.get(GROUP_URL)
         self.assertContains(response, PostViewsTests.post)
@@ -153,7 +153,7 @@ class PostViewsTests(TestCase):
         response = self.authorized_client.get(GROUP_WRONG_URL)
         self.assertNotContains(response, PostViewsTests.post)
 
-    def test_cash_function_in_homepage(self):
+    def test_cache_function_in_page_index(self):
         """Кэширование страницы index работает исправно."""
         response_1 = self.authorized_client.get(INDEX_URL)
         Post.objects.create(

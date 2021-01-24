@@ -12,8 +12,6 @@ from posts.models import Post, Follow, Comment
 USERNAME_1 = 'Smirnov'
 USERNAME_2 = 'Ivanov'
 INDEX_URL = reverse('index')
-FOLLOW_URL = reverse('profile_follow', kwargs={'username': USERNAME_1})
-UNFOLLOW_URL = reverse('profile_unfollow', kwargs={'username': USERNAME_1})
 FOLLOW_INDEX_URL = reverse('follow_index')
 
 
@@ -36,6 +34,11 @@ class PostFollowTests(TestCase):
             'username': cls.user_author, 'post_id': cls.post.id
         })
 
+        cls.follow = Follow.objects.create(
+            user=cls.user_subscriber,
+            author=cls.user_author
+        )
+
     @classmethod
     def tearDownClass(cls):
         shutil.rmtree(settings.MEDIA_ROOT, ignore_errors=True)
@@ -47,22 +50,23 @@ class PostFollowTests(TestCase):
         self.client_subscriber = Client()
         self.client_author.force_login(PostFollowTests.user_author)
         self.client_subscriber.force_login(PostFollowTests.user_subscriber)
-        self.client_subscriber.get(FOLLOW_URL)
 
     def test_user_subcribes_and_to_author(self):
         """Авторизованный пользователь успешно подписался на автора"""
-        self.assertTrue(Follow.objects.filter(
+        is_subscribed = Follow.objects.filter(
             user=PostFollowTests.user_subscriber,
-            author=PostFollowTests.user_author).exists()
+            author=PostFollowTests.user_author
         )
+        self.assertTrue(is_subscribed.exists())
 
     def test_user_unsubcribes_to_author(self):
         """Авторизованный пользователь успешно отписался от автора"""
-        self.client_subscriber.get(UNFOLLOW_URL)
-        self.assertFalse(Follow.objects.filter(
+        PostFollowTests.follow.delete()
+        is_subscribed = Follow.objects.filter(
             user=PostFollowTests.user_subscriber,
-            author=PostFollowTests.user_author).exists()
+            author=PostFollowTests.user_author
         )
+        self.assertFalse(is_subscribed.exists())
 
     def test_author_post_appear_in_user_subscribe(self):
         """Новая запись пользователя появляется в ленте тех,

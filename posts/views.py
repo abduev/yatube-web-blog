@@ -7,7 +7,11 @@ from .models import Comment, Follow, Group, Post, User
 
 
 def index(request):
-    post_list = Post.objects.select_related('group')
+    post_list = Post.objects.select_related(
+        'author', 'group'
+    ).prefetch_related(
+        'comments__author'
+    )
     paginator = Paginator(post_list, 10)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
@@ -17,7 +21,13 @@ def index(request):
 
 
 def group_posts(request, slug):
-    group = get_object_or_404(Group, slug=slug)
+    group = get_object_or_404(
+        Group.objects.all(
+        ).prefetch_related(
+            'posts__author', 'posts__comments'
+        ),
+        slug=slug
+    )
     posts = group.posts.all()
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
@@ -38,13 +48,16 @@ def post_new(request):
     return render(request, "post_new.html", {"form": form})
 
 
+def is_subscribed(user, author):
+    if user.is_authenticated:
+        return Follow.objects.filter(
+            user=user, author=author).exists()
+    
+
 def profile(request, username):
     author = get_object_or_404(User, username=username)
-    posts = author.posts.all()
-    following = False
-    if request.user.is_authenticated:
-        following = Follow.objects.filter(
-            user=request.user, author__username=username).exists()
+    posts = author.posts.all().prefetch_related('comments__author', 'group')
+    following = is_subscribed(request.user, author)
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
@@ -58,7 +71,9 @@ def post_view(request, username, post_id):
     post = get_object_or_404(Post, author__username=username, id=post_id)
     author = post.author
     post_count = author.posts.all().count()
-    comments = Comment.objects.filter(post__id=post_id)
+    comments = Comment.objects.filter(
+        post__id=post_id
+    ).select_related('author')
     form = CommentForm(request.POST or None)
     return render(request, 'post.html', {
             "post": post, "post_count": post_count, "author": author,
@@ -111,6 +126,10 @@ def server_error(request):
 def follow_index(request):
     post_list = Post.objects.filter(
         author__following__user=request.user
+    ).select_related(
+        'author', 'group'
+    ).prefetch_related(
+        'comments__author'
     )
     paginator = Paginator(post_list, 10)
     page_number = request.GET.get('page')
@@ -123,8 +142,7 @@ def follow_index(request):
 @login_required
 def profile_follow(request, username):
     author = User.objects.get(username=username)
-    if (request.user != author and not Follow.objects.filter(
-            user=request.user, author__username=username).exists()):
+    if (request.user != author and not is_subscribed(request.user, author)):
         Follow.objects.create(user=request.user, author=author)
     return redirect("profile", username=username)
 
@@ -132,5 +150,6 @@ def profile_follow(request, username):
 @login_required
 def profile_unfollow(request, username):
     Follow.objects.filter(
-        user=request.user, author__username=username).delete()
+        user=request.user, author__username=username
+        ).delete()
     return redirect("profile", username=username)
