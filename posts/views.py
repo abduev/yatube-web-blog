@@ -52,7 +52,7 @@ def is_subscribed(user, author):
     if user.is_authenticated:
         return Follow.objects.filter(
             user=user, author=author).exists()
-    
+
 
 def profile(request, username):
     author = get_object_or_404(User, username=username)
