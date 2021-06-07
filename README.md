@@ -87,7 +87,7 @@ __Структуры моделей.__
  - _user_ - внешний ключ,  обязательное поле, связь Many-To-One с моделью _User_, содержит идентификатор пользователя (подписчика).
  - _author_ - внешний ключ,  обязательное поле, связь Many-To-One с моделью _User_, содержит идентификатор пользователя (автора).
 
-![](//https://github.com/abduev/Screenshots/blob/main/Yatube_DB.jpg/200x100)
+![](https://github.com/abduev/Screenshots/blob/main/Yatube_DB.jpg/)
 
 
 ### __Установка__.
