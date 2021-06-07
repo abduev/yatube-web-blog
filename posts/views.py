@@ -7,6 +7,7 @@ from .models import Comment, Follow, Group, Post, User
 
 
 def index(request):
+    """Функция вывода постов на главной странице"""
     post_list = Post.objects.select_related(
         'author', 'group'
     ).prefetch_related(
@@ -21,6 +22,7 @@ def index(request):
 
 
 def group_posts(request, slug):
+    """Функция вывода постов на странице сообщества"""
     group = get_object_or_404(
         Group.objects.all(
         ).prefetch_related(
@@ -39,6 +41,7 @@ def group_posts(request, slug):
 
 @login_required
 def post_new(request):
+    """Функция создания поста"""
     form = PostForm(request.POST or None, files=request.FILES or None)
     if request.method == 'POST' and form.is_valid():
         new_post = form.save(commit=False)
@@ -49,12 +52,14 @@ def post_new(request):
 
 
 def is_subscribed(user, author):
+    """Функция проверки подписки на автора"""
     if user.is_authenticated:
         return Follow.objects.filter(
             user=user, author=author).exists()
 
 
 def profile(request, username):
+    """Функция вывода постов на странице автора"""
     author = get_object_or_404(User, username=username)
     posts = author.posts.all().prefetch_related('comments__author', 'group')
     following = is_subscribed(request.user, author)
@@ -68,6 +73,7 @@ def profile(request, username):
 
 
 def post_view(request, username, post_id):
+    """Функция вывода поста с комментариями к нему"""
     post = get_object_or_404(Post, author__username=username, id=post_id)
     author = post.author
     post_count = author.posts.all().count()
@@ -82,6 +88,7 @@ def post_view(request, username, post_id):
 
 
 def post_edit(request, username, post_id):
+    """Функция редактирования поста"""
     post = get_object_or_404(Post, author__username=username, id=post_id)
     if request.user.username == post.author.username:
         form = PostForm(
@@ -98,6 +105,7 @@ def post_edit(request, username, post_id):
 
 @login_required
 def add_comment(request, username, post_id):
+    """Функция добавления комментария"""
     post = get_object_or_404(Post, author__username=username, id=post_id)
     form = CommentForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
@@ -110,6 +118,7 @@ def add_comment(request, username, post_id):
 
 
 def page_not_found(request, exception):
+    """Функция вывода 404-й ошибки"""
     return render(
         request,
         "misc/404.html",
@@ -119,11 +128,13 @@ def page_not_found(request, exception):
 
 
 def server_error(request):
+    """Функция вывода 500-й ошибки"""
     return render(request, "misc/500.html", status=500)
 
 
 @login_required
 def follow_index(request):
+    """Функция вывода постов по подписке"""
     post_list = Post.objects.filter(
         author__following__user=request.user
     ).select_related(
@@ -141,6 +152,7 @@ def follow_index(request):
 
 @login_required
 def profile_follow(request, username):
+    """Функция создания подписки на выбранного автора"""
     author = User.objects.get(username=username)
     if (request.user != author and not is_subscribed(request.user, author)):
         Follow.objects.create(user=request.user, author=author)
@@ -149,6 +161,7 @@ def profile_follow(request, username):
 
 @login_required
 def profile_unfollow(request, username):
+    """Функция удаления подписки на выбранного автора"""
     Follow.objects.filter(
         user=request.user, author__username=username
         ).delete()

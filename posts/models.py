@@ -6,6 +6,7 @@ User = get_user_model()
 
 
 class Group(models.Model):
+    """Модель Сообщества"""
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=70, unique=True)
     description = models.TextField()
@@ -15,6 +16,7 @@ class Group(models.Model):
 
 
 class Post(models.Model):
+    """Модель публикаций (постов)"""
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="posts"
     )
@@ -37,6 +39,7 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
+    """Модель комментариев"""
     post = models.ForeignKey(
         Post, on_delete=models.CASCADE, related_name="comments"
     )
@@ -53,6 +56,7 @@ class Comment(models.Model):
 
 
 class Follow(models.Model):
+    """Модель подписок"""
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="follower",
         null=True
