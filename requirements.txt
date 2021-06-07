@@ -1,7 +1,7 @@
 attrs==19.3.0             # via pytest
 certifi==2019.9.11        # via requests
 chardet==3.0.4            # via requests
-django==2.2.6
+django==2.2.21
 django-cors-headers==3.7.0
 django-debug-toolbar==3.2.1
 idna==2.8                 # via requests
