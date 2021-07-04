@@ -9,20 +9,20 @@
                 <div class="card">
                         {% if author != user %}
                         <li class="list-group-item">
-                        
+
                         {% if following %}
-                        <a class="btn btn-lg btn-light" 
-                                href="{% url 'profile_unfollow' author.username %}" role="button"> 
-                                Отписаться 
-                        </a> 
+                        <a class="btn btn-lg btn-light"
+                                href="{% url 'profile_unfollow' author.username %}" role="button">
+                                Отписаться
+                        </a>
                         {% else %}
-                        <a class="btn btn-lg btn-primary" 
+                        <a class="btn btn-lg btn-primary"
                                 href="{% url 'profile_follow' author.username %}" role="button">
-                        Подписаться 
+                        Подписаться
                         </a>
                         {% endif %}
                         {% endif %}
-                    </li> 
+                    </li>
                         <div class="card-body">
 
 
@@ -31,17 +31,17 @@
 
                                 </div>
                                 <div class="h3 text-muted">
-                                        
+
                                         {{ author.username }}
-                                       
+
 
                                 </div>
                         </div>
                         <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
                                         <div class="h6 text-muted">
-                                        Подписчиков: XXX <br />
-                                        Подписан: XXX
+                                        Подписчиков: {{ author_following_count }} <br />
+                                        Подписан: {{ author_followers_count }}
                                         </div>
                                 </li>
                                 <li class="list-group-item">
@@ -59,13 +59,13 @@
                  {% endfor %}
      </div>
     </div>
-  
+
 </main>
 
 
-  <!-- Конец блока с отдельным постом --> 
+  <!-- Конец блока с отдельным постом -->
 
-                <!-- Остальные посты -->  
+                <!-- Остальные посты -->
 
 {% include "paginator.html" %}
-{% endblock %} 
+{% endblock %}

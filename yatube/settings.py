@@ -30,7 +30,11 @@ sentry_sdk.init(
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY=env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
+<<<<<<< HEAD
 DEBUG = False
+=======
+DEBUG =  True
+>>>>>>> 94c48ba544f9c68bdc860e2af6ce8f80326a9f24
 
 ALLOWED_HOSTS = ['84.252.130.107', 'localhost', 'blogyatube.co.vu', 'www.blogyatube.co.vu'] 
 

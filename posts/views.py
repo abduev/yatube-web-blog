@@ -63,12 +63,23 @@ def profile(request, username):
     author = get_object_or_404(User, username=username)
     posts = author.posts.all().prefetch_related('comments__author', 'group')
     following = is_subscribed(request.user, author)
+
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
+    try:
+        author_following_count = author.following.all().count()
+    except:
+        author_following_count = 0
+    try:
+        author_followers_count = author.followers.all().count()
+    except:
+        author_followers_count = 0
     return render(request, 'profile.html', {
         "page": page, "author": author,
-        "paginator": paginator, "following": following
+        "paginator": paginator, "following": following,
+         "author_following_count": author_following_count,
+         "author_followers_count": author_followers_count
         })
 
 
