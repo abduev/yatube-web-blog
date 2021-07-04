@@ -18,8 +18,8 @@
                         <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
                                         <div class="h6 text-muted">
-                                        Подписчиков: XXX <br />
-                                        Подписан: XXX
+                                                Подписчиков: {{ author_following_count }} <br />
+                                                Подписан: {{ author_followers_count }}
                                         </div>
                                 </li>
                                 <li class="list-group-item">
@@ -39,11 +39,11 @@
                 {% endthumbnail %}
                         <div class="card-body">
                                 <p class="card-text">
-                                    
+
                                         <!-- Ссылка на страницу автора в атрибуте href; username автора в тексте ссылки -->
                                         <a href="{% url 'profile' username=author.username %}"><strong class="d-block text-gray-dark">{{ author.username }}</strong></a>
                                         <!-- Текст поста -->
-                                    
+
                                        {{ post.text }}
                                 </p>
                                 <div class="d-flex justify-content-between align-items-center">
@@ -52,17 +52,17 @@
                                                 <!-- Ссылка на редактирование, показывается только автору записи -->
                                                 <a class="btn btn-sm text-muted" href="{% url 'post_edit' username=author.username post_id=post.id %}" role="button">Редактировать</a>
                                             {% endif %}
-                                            
+
                                         </div>
-                                        
+
                                         <small class="text-muted">{{ post.pub_date }}</small>
-                                        
+
                                 </div>
                                 {% include "comments.html" %}
                         </div>
                 </div>
      </div>
     </div>
-</main> 
+</main>
 
-{% endblock %} 
+{% endblock %}
