@@ -10,26 +10,30 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
-import os
+import os, environ
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
-from dotenv import load_dotenv
-load_dotenv()
+env = environ.Env()
+environ.Env.read_env()
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+sentry_sdk.init(
+    dsn="https://fe0e644175dd406cb247c7ee822a47b1@o911494.ingest.sentry.io/5847702", 
+    integrations=[DjangoIntegration()],
+) 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
-
+SECRET_KEY=env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG =  True
 
-ALLOWED_HOSTS = [
-    "*",
-]
+DEBUG = False
+
+ALLOWED_HOSTS = ['84.252.130.107', 'localhost', 'blogyatube.co.vu', 'www.blogyatube.co.vu'] 
 
 
 # Application definition
@@ -88,10 +92,7 @@ WSGI_APPLICATION = 'yatube.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': env.db(), # описываем, где искать настройки доступа к базе
 }
 
 
