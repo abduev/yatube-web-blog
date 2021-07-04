@@ -49,7 +49,7 @@ ssh-import-id==5.10
 ubuntu-advantage-tools==27.0
 ufw==0.36
 unattended-upgrades==0.1
-urllib3==1.25.6
+urllib3==1.26.5
 wcwidth==0.1.8
 whitenoise==5.2.0
 zipp==2.2.0
