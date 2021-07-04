@@ -92,9 +92,19 @@ def post_view(request, username, post_id):
         post__id=post_id
     ).select_related('author')
     form = CommentForm(request.POST or None)
+    try:
+        author_following_count = author.following.all().count()
+    except:
+        author_following_count = 0
+    try:
+        author_followers_count = author.followers.all().count()
+    except:
+        author_followers_count = 0
     return render(request, 'post.html', {
             "post": post, "post_count": post_count, "author": author,
-            "comments": comments, "form": form
+            "comments": comments, "form": form,
+            "author_following_count": author_following_count,
+            "author_followers_count": author_followers_count
         })
 
 
