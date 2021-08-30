@@ -92,7 +92,6 @@ __Структуры моделей.__
 =======
 Визуализация структуры БД проекта.  
 ![](https://github.com/abduev/Screenshots/blob/main/Yatube_DB.jpg/)
->>>>>>> a65897d80e2e9e107083107c2dc70f72bc47e8a0
 
 
 ### __Установка__.
