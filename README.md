@@ -10,7 +10,7 @@
 Стек:
 Язык: Python 3.6.9.
 Back-end: Django 2.2.6, SQLite.
-Front-end: Bootstrap.
+Front-end: Bootstrap. Шаблоны django.
 Тестирование: Unittest.
 
 ### __Функционал проекта.__
