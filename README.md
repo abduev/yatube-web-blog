@@ -98,12 +98,18 @@ __Структуры моделей.__
 
 1. Клонируйте проект с помощью git clone
 2. Перейдите в папку с проектом и создайте виртуальное окружение.
-_python3 -m venv venv_
+```
+    python3 -m venv venv
+```
 3. Установите все необходимые пакеты.
-_pip install -r requirements.txt_
+```
+    pip install -r requirements.txt
+```
 4. Сделайте миграции
-_python manage.py makemigrations_
-_python manage.py migrate_
+```
+    python manage.py makemigrations
+    python manage.py migrate
+```
 5. Создайте переменную окружения с помощью библиотеки dotenv.
 Для переменной SECRET-KEY из settings Django-проекта, необходимо указать переменную окружения. Создайте файл .env и в нем создайте переменную DJANGO_SECRET_KEY и присвойте ей ключ, указав его в кавычках. Ключ удобно сгенерировать в онлайн сервисах, либо следующим способом:
 ```
@@ -114,10 +120,14 @@ _python manage.py migrate_
 ```
 
 6. Запустите проект.
-_python manage.py runserver_
+```
+    python manage.py runserver
+```
 7. Откройте в браузере адрес [http://127.0.0.1:8000](http://127.0.0.1:8000).
 8. Можете скачать готовую базу с записями дневника Льва Толстого.
 [https://code.s3.yandex.net/backend-developer/learning-materials/db.sqlite3.zip](https://code.s3.yandex.net/backend-developer/learning-materials/db.sqlite3.zip)
 Скачайте файл, извлеките его из архива и замените им ваш файл db.sqlite3. Вместо вашей БД у вас будет база, заполненная тестовыми постами.
 8. Создайте суперпользователя.
-_python manage.py createsuperuser_
+```
+    python manage.py createsuperuser
+```
